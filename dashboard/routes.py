@@ -1,5 +1,6 @@
 import requests
 import datetime
+import re
 
 from bs4 import BeautifulSoup
 
@@ -8,12 +9,18 @@ import pandas as pd
 from flask import render_template
 
 from dashboard import app, db, models
-names = {
-        'Name of State / UT': 'state',
-        'Total Confirmed cases (Including 65 foreign Nationals)':'total',
-        'Cured/Discharged/Migrated':'cured',
-        'Death':'death',
-    }
+def rename(df):
+    mo = re.match(r'.*(\d{2,}).*',df.columns[2])
+    val = mo.groups()[0]
+    names = {
+            'Name of State / UT': 'state',
+            'Total Confirmed cases (Including {} foreign Nationals)'.format(val):'total',
+            'Cured/Discharged/Migrated':'cured',
+            'Death':'death',
+        }
+    df.rename(columns=names,inplace=True)
+    return df
+
 cache = {}
 def func(s):
     if s in cache.keys():
@@ -110,10 +117,22 @@ def index():
     deaths = li[2].text
     table = soup.select('.data-table')[0]
     df = pd.read_html(str(table))[0]
-    df.rename(columns=names, inplace=True)
+    rename(df)
+    df = df.iloc[:30]
+    df['total'] = df['total'].apply(lambda x: int(x))
+    df['cured'] = df['cured'].apply(lambda x: int(x))
+    df['death'] = df['death'].apply(lambda x: int(x))
+    india_ = {
+                'state':'India',
+                'total':df['total'].sum(),
+                'cured':df['cured'].sum(),
+                'death':df['death'].sum(),
+            }
+    df2 = pd.DataFrame(india_,index=['India'])
+    df = df.append(df2)
     df.set_index('state', inplace=True)
     print(df.head())
-    print(get_data(df, 'Kerala'))
+    print(get_data(df, 'India'))
     check(df,int(active),int(deaths),int(cured))
     data = []
     
