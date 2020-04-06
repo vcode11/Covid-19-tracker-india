@@ -3,10 +3,30 @@
 		<title>Track the Spread Of Covid 19 in India</title>
 	</head>
 	<body>
+		<h1>Track the Spread of COVID-19 in India</h1>
+		<form action="/" method="GET">
+			<label for="region">
+				Choose a Region
+			</label>
+			<select name="region">
+				<option value="India">India</option>
+			{% for state in states %}
+				<option value="{{state}}">{{state}}</option>
+			{% endfor %}
+			</select>
+			<input type="submit" value="Submit">
+		</form>
+		{{data.region}}
 		<ul>
-			<li>Active Cases:{{active}}</li>
-			<li>Cured/ Discharged: {{cured}} </li>
-			<li> Deaths:{{deaths}} </li>
+			<li>Active Cases:{{data.active}}</li>
+			<li>Cured/ Discharged: {{data.cured}} </li>
+			<li> Deaths:{{data.death}} </li>
+		</ul>
+		<p> Last change Hours<p>
+		<ul>
+			<li>Active Cases:{{data.change.active}}</li>
+			<li>Cured/ Discharge: {{data.change.cured}}</li>
+			<li>Deaths: {{data.change.death}}</li>
 		</ul>
 	</body>
 </html>

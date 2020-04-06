@@ -6,7 +6,7 @@ from bs4 import BeautifulSoup
 
 import pandas as pd
 
-from flask import render_template
+from flask import render_template, request
 
 from dashboard import app, db, models
 def rename(df):
@@ -94,10 +94,10 @@ def get_data(df, state):
     d['active'] = int(df.loc[state][1])-d['cured']-d['death']
 
     if case != None:
-        d['24'] = {
+        d['change'] = {
                 'active':d['active']-case.total + case.death + case.cured,
                 'cured':d['cured'] -case.cured,
-                'deaths':d['death'] - case.death,
+                'death':d['death'] - case.death,
             }
     return d
 
@@ -107,7 +107,7 @@ def create_tables():
     print('DB created.')
     insert_older_data()
 
-@app.route('/')
+@app.route('/', methods=['GET','POST'])
 def index():
     r = requests.get('https://www.mohfw.gov.in/')
     soup = BeautifulSoup(r.text, features="html.parser")
@@ -131,10 +131,7 @@ def index():
     df2 = pd.DataFrame(india_,index=['India'])
     df = df.append(df2)
     df.set_index('state', inplace=True)
-    print(df.head())
-    print(get_data(df, 'India'))
     check(df,int(active),int(deaths),int(cured))
-    data = []
-    
-    return render_template("index.html", cured=cured,\
-            active=active,deaths=deaths)
+    data = get_data(df,request.args.get('region','India'))
+    return render_template("index.html",data=data,states=list(df.index)[:-1])
+
