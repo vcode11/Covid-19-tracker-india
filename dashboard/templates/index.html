@@ -22,12 +22,14 @@
 			<li>Cured/ Discharged: {{data.cured}} </li>
 			<li> Deaths:{{data.death}} </li>
 		</ul>
-		<p> Last change Hours<p>
+		{% if data.change %}
+		<p> Since Last 24 Hours<p>
 		<ul>
 			<li>Active Cases:{{data.change.active}}</li>
 			<li>Cured/ Discharge: {{data.change.cured}}</li>
 			<li>Deaths: {{data.change.death}}</li>
 		</ul>
+		{% endif %}
 	</body>
 </html>
 

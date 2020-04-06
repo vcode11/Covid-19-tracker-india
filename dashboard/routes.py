@@ -54,11 +54,13 @@ def insert_older_data():
     cache.clear()
 
 def update_db(df, active, deaths, cured):
+    today = datetime.date.today()
+    yesterday = today-datetime.timedelta(days=1)
     case = models.Cases(region='India',
                         total=active+deaths+cured,
                         death=deaths,
                         cured=cured,
-                        date=datetime.date.today(),
+                        date=yesterday,
             )
     db.session.add(case)
     states = df.index
@@ -70,19 +72,19 @@ def update_db(df, active, deaths, cured):
                             total=total_cases,
                             death=death,
                             cured=cured,
-                            date = datetime.date.today(),
+                            date = yesterday,
                             )
         db.session.add(case)
         db.session.commit()
     with open("last_updated.txt","w") as f:
-        f.write(str(datetime.date.today()))
+        f.write(str(yesterday))
     
 def check(*args, **kwargs):
     with open('last_updated.txt') as f:
         date = f.read().strip()
         date = date.split('-')
         date = datetime.date(int(date[0]), int(date[1]), int(date[2]))
-        if datetime.date.today()-date >= datetime.timedelta(days=1):
+        if datetime.date.today()-date > datetime.timedelta(days=1):
             update_db(*args, **kwargs)
 def get_data(df, state):
     d = {}
@@ -99,6 +101,8 @@ def get_data(df, state):
                 'cured':d['cured'] -case.cured,
                 'death':d['death'] - case.death,
             }
+    else:
+        d['change'] = {}
     return d
 
 @app.before_first_request
@@ -122,6 +126,7 @@ def index():
     df['total'] = df['total'].apply(lambda x: int(x))
     df['cured'] = df['cured'].apply(lambda x: int(x))
     df['death'] = df['death'].apply(lambda x: int(x))
+    check(df,int(active),int(deaths),int(cured))
     india_ = {
                 'state':'India',
                 'total':df['total'].sum(),
@@ -131,7 +136,6 @@ def index():
     df2 = pd.DataFrame(india_,index=['India'])
     df = df.append(df2)
     df.set_index('state', inplace=True)
-    check(df,int(active),int(deaths),int(cured))
     data = get_data(df,request.args.get('region','India'))
     return render_template("index.html",data=data,states=list(df.index)[:-1])
 
