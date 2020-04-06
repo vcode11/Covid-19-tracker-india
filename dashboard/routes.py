@@ -14,6 +14,38 @@ names = {
         'Cured/Discharged/Migrated':'cured',
         'Death':'death',
     }
+cache = {}
+def func(s):
+    if s in cache.keys():
+        return cache[s]
+    l = list(map(int,s.split('/')))
+    cache[s] = datetime.date(2000+l[2],l[1],l[0])
+    return cache[s]
+def insert_older_data():
+    df = pd.read_csv('covid_19_india.csv')
+    df = df[['Date','State/UnionTerritory', 'Cured','Deaths','Confirmed']]
+    df.rename(columns={'State/UnionTerritory':'State'},inplace=True)
+    df['Date'] = df['Date'].apply(func)
+    for row in df.itertuples(index=False):
+        case = models.Cases(region=row.State,
+                            death=row.Deaths,
+                            cured=row.Cured,
+                            total=row.Confirmed,
+                            date=row.Date,
+                            )
+        db.session.add(case)
+    df = df.groupby(['Date']).sum()
+    for row in df.itertuples():
+        case = models.Cases(region="India",
+                            death=row.Deaths,
+                            cured=row.Cured,
+                            total=row.Confirmed,
+                            date=row.Index,
+                            )
+        db.session.add(case)
+    db.session.commit()
+    cache.clear()
+
 def update_db(df, active, deaths, cured):
     case = models.Cases(region='India',
                         total=active+deaths+cured,
@@ -48,15 +80,15 @@ def check(*args, **kwargs):
 def get_data(df, state):
     d = {}
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
-    case = models.Cases.query.filter_by(date=yesterday, region=state).first()
+    case = models.Cases.query.filter_by(date=datetime.datetime(yesterday.year,yesterday.month,yesterday.day,0,0), region=state).first()
     d['cured'] = int(df.loc[state][2])
     d['death'] = int(df.loc[state][3])
     d['region'] = state
     d['active'] = int(df.loc[state][1])-d['cured']-d['death']
 
-    if case is not None:
+    if case != None:
         d['24'] = {
-                'active':d['active']-case.total + case.deaths + case.cured,
+                'active':d['active']-case.total + case.death + case.cured,
                 'cured':d['cured'] -case.cured,
                 'deaths':d['death'] - case.death,
             }
@@ -65,6 +97,8 @@ def get_data(df, state):
 @app.before_first_request
 def create_tables():
     db.create_all()
+    print('DB created.')
+    insert_older_data()
 
 @app.route('/')
 def index():
@@ -79,7 +113,7 @@ def index():
     df.rename(columns=names, inplace=True)
     df.set_index('state', inplace=True)
     print(df.head())
-    print(get_data(df, 'Bihar'))
+    print(get_data(df, 'Kerala'))
     check(df,int(active),int(deaths),int(cured))
     data = []
     
