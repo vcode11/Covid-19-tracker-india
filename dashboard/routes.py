@@ -55,12 +55,17 @@ def insert_older_data():
 
 def update_db(df, active, deaths, cured):
     today = datetime.date.today()
-    yesterday = today-datetime.timedelta(days=1)
+    #deleting the older cases
+    today_cases = models.Cases.query.filter_by(date=today)
+    for case in today_cases:
+        db.session.delete(case)
+        db.commit()
+    #updating the stats
     case = models.Cases(region='India',
                         total=active+deaths+cured,
                         death=deaths,
                         cured=cured,
-                        date=yesterday,
+                        date=today,
             )
     db.session.add(case)
     states = df.index
@@ -72,20 +77,11 @@ def update_db(df, active, deaths, cured):
                             total=total_cases,
                             death=death,
                             cured=cured,
-                            date = yesterday,
+                            date = today,
                             )
         db.session.add(case)
         db.session.commit()
-    with open("last_updated.txt","w") as f:
-        f.write(str(yesterday))
     
-def check(*args, **kwargs):
-    with open('last_updated.txt') as f:
-        date = f.read().strip()
-        date = date.split('-')
-        date = datetime.date(int(date[0]), int(date[1]), int(date[2]))
-        if datetime.date.today()-date > datetime.timedelta(days=1):
-            update_db(*args, **kwargs)
 def get_data(df, state):
     d = {}
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
@@ -126,7 +122,7 @@ def index():
     df['total'] = df['total'].apply(lambda x: int(x))
     df['cured'] = df['cured'].apply(lambda x: int(x))
     df['death'] = df['death'].apply(lambda x: int(x))
-    check(df,int(active),int(deaths),int(cured))
+    update_db(df,int(active),int(deaths),int(cured))
     india_ = {
                 'state':'India',
                 'total':df['total'].sum(),
