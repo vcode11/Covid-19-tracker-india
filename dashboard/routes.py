@@ -19,7 +19,7 @@ from flask import render_template, request
 from dashboard import app, db, models
 
 
-def rename(df):
+def rename(df: pd.DataFrame) -> pd.DataFrame:
     """
     This method renames df columns obtained from request to
         https://mhfow.gov.in/ This was required because number of foreign
@@ -43,7 +43,7 @@ def rename(df):
 cache = {}
 
 
-def func(s):
+def func(s: str) -> datetime.date:
     """
     This function formats the data objects obtained from data frame.
         These strings are of the form dd/mm/yy which are converted to python
@@ -59,7 +59,7 @@ def func(s):
     return cache[s]
 
 
-def insert_older_data():
+def insert_older_data() -> None:
     """
     This function reads the data from kaggle dataset about covid-19
         cases in India and inserts the older data to the database for analytics.
@@ -92,7 +92,7 @@ def insert_older_data():
     cache.clear()
 
 
-def update_db(df, active, deaths, cured):
+def update_db(df : pd.DataFrame, active : int, deaths :int, cured : int) -> None:
     """
     This function updates the number of corona virus cases as per the latest data
         recieved from the MFHOW website's table.
@@ -129,7 +129,7 @@ def update_db(df, active, deaths, cured):
         db.session.commit()
 
 
-def get_data(df, state):
+def get_data(df: pd.DataFrame, state: str):
     """
     This function fetches data from database for a specific region and from
         the DataFrame and constructs the required context dictionary.
@@ -165,13 +165,12 @@ def get_data(df, state):
 
 
 @app.before_first_request
-def create_tables():
+def create_tables() -> None:
     """
     Function to intitalize database.
     
     """
     db.create_all()
-    print("DB created.")
     insert_older_data()
 
 
