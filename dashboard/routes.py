@@ -22,11 +22,11 @@ from dashboard import app, db, models
 def rename(df):
     """
     This method renames df columns obtained from request to
-    https://mhfow.gov.in/ This was required because number of foreign
-    nationals is dynamic.
+        https://mhfow.gov.in/ This was required because number of foreign
+        nationals is dynamic.
+        :param df: Pandas DataFrame object from pd.read_html
+        :return Pandas DataFrame object with renamed columns.
 
-    :param df: Pandas DataFrame object from pd.read_html
-    :return Pandas DataFrame object with renamed columns.
     """
     match_object = re.match(r".*(\d{2,}).*", df.columns[2])
     val = match_object.groups()[0]
@@ -46,11 +46,11 @@ cache = {}
 def func(s):
     """
     This function formats the data objects obtained from data frame.
-    These strings are of the form dd/mm/yy which are converted to python
-    datetime.date objects.
+        These strings are of the form dd/mm/yy which are converted to python
+        datetime.date objects.
+        :param s: String of the format dd/mm/yy
+        :return datetime.date object of the dd/mm/yy.
 
-    :param s: String of the format dd/mm/yy
-    :return datetime.date object of the dd/mm/yy.
     """
     if s in cache.keys():
         return cache[s]
@@ -62,7 +62,7 @@ def func(s):
 def insert_older_data():
     """
     This function reads the data from kaggle dataset about covid-19
-    cases in India and inserts the older data to the database for analytics.
+        cases in India and inserts the older data to the database for analytics.
 
     """
     df = pd.read_csv("covid_19_india.csv")
@@ -95,12 +95,12 @@ def insert_older_data():
 def update_db(df, active, deaths, cured):
     """
     This function updates the number of corona virus cases as per the latest data
-    recieved from the MFHOW website's table.
+        recieved from the MFHOW website's table.
+        :param: df Pandas.DataFrame object containing the data of html table
+        :param: active: int Active number of cases as show in the top block.
+        :param: deaths: int Number of deaths as shown in the top block.
+        :param: cured:int  Number of cured as shownn in the top block.
     
-    :param: df Pandas.DataFrame object containing the data of html table
-    :param: active: int Active number of cases as show in the top block.
-    :param: deaths: int Number of deaths as shown in the top block.
-    :param: cured:int  Number of cured as shownn in the top block.
     """
     today = datetime.date.today()
     # deleting the older cases
@@ -132,12 +132,12 @@ def update_db(df, active, deaths, cured):
 def get_data(df, state):
     """
     This function fetches data from database for a specific region and from
-    the DataFrame and constructs the required context dictionary.
+        the DataFrame and constructs the required context dictionary.
+        :param df: Pandas DataFrame for reading html table.
+        :param state: str Region for which data should be looked up.
+        :return data_dict : Context Dictionary contaning change data and 
+        current data.
     
-    :param df: Pandas DataFrame for reading html table.
-    :param state: str Region for which data should be looked up.
-    :return data_dict : Context Dictionary contaning change data and 
-    current data.
     """
     data_dict = {}
     yesterday = datetime.date.today() - datetime.timedelta(days=1)
@@ -168,6 +168,7 @@ def get_data(df, state):
 def create_tables():
     """
     Function to intitalize database.
+    
     """
     db.create_all()
     print("DB created.")
@@ -179,6 +180,7 @@ def index():
     """
     / endpoint for flask app.
     Accepts GET request from form for fetching data of a particular region.
+    
     """
     r = requests.get("https://www.mohfw.gov.in/")
     soup = BeautifulSoup(r.text, features="html.parser")

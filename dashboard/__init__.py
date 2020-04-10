@@ -7,9 +7,9 @@ Welfare <https://www.mohfw.gov.in/>`_
 
 Project Modules:
 -------------------
-:module:`dashboard.py` runs the flask server
-:module:`models.py` contains the model :class:`dashboard.models.Cases`
-:module:`routes.py` contains :func:`dashboard.routesindex` route
+:py:mod:`dashboard.py` runs the flask server
+:py:mod:`models.py` contains the model :class:`dashboard.models.Cases`
+:py:mod:`routes.py` contains :func:`dashboard.routesindex` route
 and other request and manipulation functions.
 """
 from flask import Flask

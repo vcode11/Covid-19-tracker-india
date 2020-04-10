@@ -1,0 +1,283 @@
+
+<!DOCTYPE html>
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta charset="utf-8" />
+    <title>dashboard package &#8212; COVID-19-Dashboard India 0.0.0 documentation</title>
+    <link rel="stylesheet" href="_static/alabaster.css" type="text/css" />
+    <link rel="stylesheet" href="_static/pygments.css" type="text/css" />
+    <script id="documentation_options" data-url_root="./" src="_static/documentation_options.js"></script>
+    <script src="_static/jquery.js"></script>
+    <script src="_static/underscore.js"></script>
+    <script src="_static/doctools.js"></script>
+    <script src="_static/language_data.js"></script>
+    <link rel="index" title="Index" href="genindex.html" />
+    <link rel="search" title="Search" href="search.html" />
+    <link rel="prev" title="Welcome to COVID-19-Dashboard India’s documentation!" href="index.html" />
+   
+  <link rel="stylesheet" href="_static/custom.css" type="text/css" />
+  
+  
+  <meta name="viewport" content="width=device-width, initial-scale=0.9, maximum-scale=0.9" />
+
+  </head><body>
+  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          
+
+          <div class="body" role="main">
+            
+  <div class="section" id="dashboard-package">
+<h1>dashboard package<a class="headerlink" href="#dashboard-package" title="Permalink to this headline">¶</a></h1>
+<div class="section" id="submodules">
+<h2>Submodules<a class="headerlink" href="#submodules" title="Permalink to this headline">¶</a></h2>
+</div>
+<div class="section" id="module-dashboard.dashboard">
+<span id="dashboard-dashboard-module"></span><h2>dashboard.dashboard module<a class="headerlink" href="#module-dashboard.dashboard" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="dashboard-py">
+<h3>dashboard.py<a class="headerlink" href="#dashboard-py" title="Permalink to this headline">¶</a></h3>
+<p>This module runs the flask server and contains the Flask App.</p>
+</div>
+</div>
+<div class="section" id="module-dashboard.models">
+<span id="dashboard-models-module"></span><h2>dashboard.models module<a class="headerlink" href="#module-dashboard.models" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="models-py">
+<h3><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.py</span></code><a class="headerlink" href="#models-py" title="Permalink to this headline">¶</a></h3>
+<p>This module contains Database Models defined using SQLAlchemy ORM.
+It contains the tables:</p>
+<ul class="simple">
+<li><p><a class="reference internal" href="#dashboard.models.Cases" title="dashboard.models.Cases"><code class="xref py py-class docutils literal notranslate"><span class="pre">Cases</span></code></a></p></li>
+</ul>
+<dl class="py class">
+<dt id="dashboard.models.Cases">
+<em class="property">class </em><code class="sig-prename descclassname">dashboard.models.</code><code class="sig-name descname">Cases</code><span class="sig-paren">(</span><em class="sig-param"><span class="o">**</span><span class="n">kwargs</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/models.html#Cases"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.models.Cases" title="Permalink to this definition">¶</a></dt>
+<dd><p>Bases: <code class="xref py py-class docutils literal notranslate"><span class="pre">sqlalchemy.ext.declarative.api.Model</span></code></p>
+<p>Cases model
+:attr:</p>
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.cured">
+<code class="sig-name descname">cured</code><a class="headerlink" href="#dashboard.models.Cases.cured" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.date">
+<code class="sig-name descname">date</code><a class="headerlink" href="#dashboard.models.Cases.date" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.death">
+<code class="sig-name descname">death</code><a class="headerlink" href="#dashboard.models.Cases.death" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.id">
+<code class="sig-name descname">id</code><a class="headerlink" href="#dashboard.models.Cases.id" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.region">
+<code class="sig-name descname">region</code><a class="headerlink" href="#dashboard.models.Cases.region" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="py attribute">
+<dt id="dashboard.models.Cases.total">
+<code class="sig-name descname">total</code><a class="headerlink" href="#dashboard.models.Cases.total" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-dashboard.routes">
+<span id="dashboard-routes-module"></span><h2>dashboard.routes module<a class="headerlink" href="#module-dashboard.routes" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="routes-py">
+<h3>routes.py<a class="headerlink" href="#routes-py" title="Permalink to this headline">¶</a></h3>
+<p>This match_objectdule contains url routes for the flask app.
+This match_objectdule also perform the data wrangling of Datframes from
+<a class="reference external" href="https://mhfow.com">https://mhfow.com</a></p>
+<dl class="py function">
+<dt id="dashboard.routes.create_tables">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">create_tables</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#create_tables"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.create_tables" title="Permalink to this definition">¶</a></dt>
+<dd><p>Function to intitalize database.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.func">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">func</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">s</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#func"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.func" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This function formats the data objects obtained from data frame.</dt><dd><p>These strings are of the form dd/mm/yy which are converted to python
+datetime.date objects.
+:param s: String of the format dd/mm/yy
+:return datetime.date object of the dd/mm/yy.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.get_data">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">get_data</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">state</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#get_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.get_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This function fetches data from database for a specific region and from</dt><dd><p>the DataFrame and constructs the required context dictionary.
+:param df: Pandas DataFrame for reading html table.
+:param state: str Region for which data should be looked up.
+:return data_dict : Context Dictionary contaning change data and 
+current data.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.index">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">index</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#index"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.index" title="Permalink to this definition">¶</a></dt>
+<dd><p>/ endpoint for flask app.
+Accepts GET request from form for fetching data of a particular region.</p>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.insert_older_data">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">insert_older_data</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#insert_older_data"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.insert_older_data" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This function reads the data from kaggle dataset about covid-19</dt><dd><p>cases in India and inserts the older data to the database for analytics.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.rename">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">rename</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#rename"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.rename" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This method renames df columns obtained from request to</dt><dd><p><a class="reference external" href="https://mhfow.gov.in/">https://mhfow.gov.in/</a> This was required because number of foreign
+nationals is dynamic.
+:param df: Pandas DataFrame object from pd.read_html
+:return Pandas DataFrame object with renamed columns.</p>
+</dd>
+</dl>
+</dd></dl>
+
+<dl class="py function">
+<dt id="dashboard.routes.update_db">
+<code class="sig-prename descclassname">dashboard.routes.</code><code class="sig-name descname">update_db</code><span class="sig-paren">(</span><em class="sig-param"><span class="n">df</span></em>, <em class="sig-param"><span class="n">active</span></em>, <em class="sig-param"><span class="n">deaths</span></em>, <em class="sig-param"><span class="n">cured</span></em><span class="sig-paren">)</span><a class="reference internal" href="_modules/dashboard/routes.html#update_db"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#dashboard.routes.update_db" title="Permalink to this definition">¶</a></dt>
+<dd><dl class="simple">
+<dt>This function updates the number of corona virus cases as per the latest data</dt><dd><p>recieved from the MFHOW website’s table.
+:param: df Pandas.DataFrame object containing the data of html table
+:param: active: int Active number of cases as show in the top block.
+:param: deaths: int Number of deaths as shown in the top block.
+:param: cured:int  Number of cured as shownn in the top block.</p>
+</dd>
+</dl>
+</dd></dl>
+
+</div>
+</div>
+<div class="section" id="module-dashboard">
+<span id="module-contents"></span><h2>Module contents<a class="headerlink" href="#module-dashboard" title="Permalink to this headline">¶</a></h2>
+<div class="section" id="covid-19-dashboard-for-india">
+<h3>COVID-19 Dashboard For India<a class="headerlink" href="#covid-19-dashboard-for-india" title="Permalink to this headline">¶</a></h3>
+<p>This project tracks COVID-19 cases count in India on daily basis.
+This data has been obtain from site <a class="reference external" href="https://www.mohfw.gov.in/">Ministry of Health and Family 
+Welfare</a></p>
+<div class="section" id="project-modules">
+<h4>Project Modules:<a class="headerlink" href="#project-modules" title="Permalink to this headline">¶</a></h4>
+<p><code class="xref py py-mod docutils literal notranslate"><span class="pre">dashboard.py</span></code> runs the flask server
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">models.py</span></code> contains the model <a class="reference internal" href="#dashboard.models.Cases" title="dashboard.models.Cases"><code class="xref py py-class docutils literal notranslate"><span class="pre">dashboard.models.Cases</span></code></a>
+<code class="xref py py-mod docutils literal notranslate"><span class="pre">routes.py</span></code> contains <code class="xref py py-func docutils literal notranslate"><span class="pre">dashboard.routesindex()</span></code> route
+and other request and manipulation functions.</p>
+</div>
+</div>
+</div>
+</div>
+
+
+          </div>
+          
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<h1 class="logo"><a href="index.html">COVID-19-Dashboard India</a></h1>
+
+
+
+
+
+
+
+
+<h3>Navigation</h3>
+<ul class="current">
+<li class="toctree-l1 current"><a class="current reference internal" href="#">dashboard package</a><ul>
+<li class="toctree-l2"><a class="reference internal" href="#submodules">Submodules</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dashboard.dashboard">dashboard.dashboard module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#dashboard-py">dashboard.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dashboard.models">dashboard.models module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#models-py"><code class="xref py py-mod docutils literal notranslate"><span class="pre">models.py</span></code></a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dashboard.routes">dashboard.routes module</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#routes-py">routes.py</a></li>
+</ul>
+</li>
+<li class="toctree-l2"><a class="reference internal" href="#module-dashboard">Module contents</a><ul>
+<li class="toctree-l3"><a class="reference internal" href="#covid-19-dashboard-for-india">COVID-19 Dashboard For India</a><ul>
+<li class="toctree-l4"><a class="reference internal" href="#project-modules">Project Modules:</a></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+
+<div class="relations">
+<h3>Related Topics</h3>
+<ul>
+  <li><a href="index.html">Documentation overview</a><ul>
+      <li>Previous: <a href="index.html" title="previous chapter">Welcome to COVID-19-Dashboard India’s documentation!</a></li>
+  </ul></li>
+</ul>
+</div>
+<div id="searchbox" style="display: none" role="search">
+  <h3 id="searchlabel">Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="search.html" method="get">
+      <input type="text" name="q" aria-labelledby="searchlabel" />
+      <input type="submit" value="Go" />
+    </form>
+    </div>
+</div>
+<script>$('#searchbox').show(0);</script>
+
+
+
+
+
+
+
+
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="footer">
+      &copy;2020, Vishal Mishra.
+      
+      |
+      Powered by <a href="http://sphinx-doc.org/">Sphinx 3.0.0</a>
+      &amp; <a href="https://github.com/bitprophet/alabaster">Alabaster 0.7.12</a>
+      
+      |
+      <a href="_sources/dashboard.rst.txt"
+          rel="nofollow">Page source</a>
+    </div>
+
+    
+
+    
+  </body>
+</html>

@@ -1,10 +1,11 @@
 """
-:module:`models.py`
+:py:mod:`models.py`
 -------------------
 This module contains Database Models defined using SQLAlchemy ORM.
 It contains the tables:
 
-+:class:`Cases`
++ :class:`Cases`
+
 """
 from dashboard import db
 
